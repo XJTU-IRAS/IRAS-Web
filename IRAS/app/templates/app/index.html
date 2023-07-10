@@ -1,0 +1,16 @@
+{% extends 'app/base.html' %}
+{% block title %}Index{% endblock title%}
+<!--可以根据需要在父html任意位置加入block块，在子类中改写-->
+{%block head%}
+<style>
+    p{
+        font-size: larger;
+        font-family: 'Times New Roman', Times, serif;
+    }
+</style>
+{% endblock head%}
+{% block body%}
+<h1>
+    Hello ,Iras
+</h1>
+{% endblock body%}
