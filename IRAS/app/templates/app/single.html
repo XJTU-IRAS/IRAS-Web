@@ -191,8 +191,6 @@
     border-radius: 4px;
     font-weight: bold;
     }
-
-
     .button-effect {
       transform: scale(0.95);
       transition: transform 0.2s;
@@ -222,18 +220,16 @@
         document.getElementById('file-input').value = file.name;
       }
     }
-    function loadPage(pageURL, menuItem) {
+    function loadPage(menuItem) {
+      pageURL=menuItem.getAttribute("data-url");
+      
       if (menuItem.classList.contains("nav-item")) {
         window.location.href = pageURL;
-      } else {
-        var subMenuItems = document.getElementsByClassName("sub-menu-item");
-        for (var i = 0; i < subMenuItems.length; i++) {
-          subMenuItems[i].classList.remove("selected");
-        }
-        menuItem.classList.add("selected");
-
-        var pageDisplay = document.getElementById("page-display");
-        pageDisplay.innerHTML = '<iframe src="' + pageURL + '"></iframe>';
+      }else{
+        var iframe = document.getElementById('ifr');
+        iframe.setAttribute('style', '');
+        var absoluteUrl = window.location.protocol + '//' + window.location.host + pageURL;
+        iframe.src = absoluteUrl;
       }
     }
   </script>
@@ -263,8 +259,8 @@
 <div id="header">
   <div id="logo">智能简历分析系统 > 单简历上传</div>
   <div id="navigation">
-    <div class="nav-item" onclick="loadPage('easy1.html', this)">首页</div>
-    <div class="nav-item" onclick="loadPage('about.html', this)">关于我们</div>
+    <div class="nav-item" data-url = "{%url 'app:index' %}"onclick='loadPage(this)'>首页</div>
+    <div class="nav-item" data-url ="" onclick="loadPage(this)">关于我们</div>
   </div>
 </div>
 
@@ -277,7 +273,12 @@
           <button id="select-button" onclick="document.getElementById('file-picker').click()">选择文件</button><br>
         </div>
       <textarea placeholder="请输入文本..."></textarea>
-      <button id="start-analysis-button" type="button" onclick="parent.location.href='easy4.html'">开始分析</button>
+      <button id="start-analysis-button" type="button" onclick="jump()">开始分析</button>
+    <script>
+      function jump(){
+        top.location.href="{%url 'app:singleres'%}"
+      }
+    </script>
     </div>
   </div>
 </div>

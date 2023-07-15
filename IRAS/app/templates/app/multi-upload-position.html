@@ -144,20 +144,7 @@
         document.getElementById('file-input').value = file.name;
       }
     }
-    function loadPage(pageURL, menuItem) {
-      if (menuItem.classList.contains("nav-item")) {
-        window.location.href = pageURL;
-      } else {
-        var subMenuItems = document.getElementsByClassName("sub-menu-item");
-        for (var i = 0; i < subMenuItems.length; i++) {
-          subMenuItems[i].classList.remove("selected");
-        }
-        menuItem.classList.add("selected");
-
-        var pageDisplay = document.getElementById("page-display");
-        pageDisplay.innerHTML = '<iframe src="' + pageURL + '"></iframe>';
-      }
-    }
+    
   </script>
   <script>
     window.addEventListener('DOMContentLoaded', (event) => {
@@ -190,8 +177,11 @@
       <button id="select-button" onclick="document.getElementById('file-picker').click()">选择文件</button><br>
     </div>
     <textarea placeholder="请输入文本..."></textarea>
-    <button id="start-analysis-button" type="button" onclick="parent.location.href='easy5.html'">开始分析</button>
-
+    <!--  -->
+    <button id="start-analysis-button" type="button" onclick="jump()">开始分析</button>
+    <script>
+      function jump(){top.location.href="{%url 'app:multires'%}"}
+    </script>
   </div>
 </div>
 </body>

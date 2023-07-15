@@ -118,18 +118,16 @@
     }
   </style>
   <script>
-    function loadPage(pageURL, menuItem) {
+     function loadPage(menuItem) {
+      pageURL=menuItem.getAttribute("data-url");
+      
       if (menuItem.classList.contains("nav-item")) {
         window.location.href = pageURL;
-      } else {
-        var subMenuItems = document.getElementsByClassName("sub-menu-item");
-        for (var i = 0; i < subMenuItems.length; i++) {
-          subMenuItems[i].classList.remove("selected");
-        }
-        menuItem.classList.add("selected");
-
-        var pageDisplay = document.getElementById("page-display");
-        pageDisplay.innerHTML = '<iframe src="' + pageURL + '"></iframe>';
+      }else{
+        var iframe = document.getElementById('ifr');
+        iframe.setAttribute('style', '');
+        var absoluteUrl = window.location.protocol + '//' + window.location.host + pageURL;
+        iframe.src = absoluteUrl;
       }
     }
   </script>
@@ -138,8 +136,8 @@
 <div id="header">
   <div id="logo">智能简历分析系统 > 多简历分析</div>
   <div id="navigation">
-    <div class="nav-item" onclick="loadPage('easy1.html', this)">首页</div>
-    <div class="nav-item" onclick="loadPage('about.html', this)">关于我们</div>
+    <div class="nav-item" data-url="{%url 'app:index'%}" onclick="loadPage(this)">首页</div>
+    <div class="nav-item" data-url="" onclick="loadPage(this)">关于我们</div>
   </div>
 </div>
 
@@ -156,10 +154,13 @@
 
   <div id="main-content">
     <div id="sub-menu">
-      <div class="sub-menu-item" onclick="loadPage('easy51.html', this)">可视化</div>
-      <div class="sub-menu-item" onclick="loadPage('easy52.html', this)">人岗匹配</div>
+      <div class="sub-menu-item" data-url="{%url 'app:multivis'%}" onclick="loadPage(this)">可视化</div>
+      <div class="sub-menu-item" data-url="{%url 'app:multimatch'%}" onclick="loadPage(this)">人岗匹配</div>
     </div>
-    <div id="page-display"></div>
+    
+    <div id="page-display">
+      <iframe id ="ifr" ></iframe>
+    </div>
   </div>
 </div>
 </body>

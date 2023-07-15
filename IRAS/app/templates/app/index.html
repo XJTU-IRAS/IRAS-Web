@@ -1,16 +1,135 @@
-{% extends 'app/base.html' %}
-{% block title %}Index{% endblock title%}
-<!--可以根据需要在父html任意位置加入block块，在子类中改写-->
-{%block head%}
-<style>
-    p{
-        font-size: larger;
-        font-family: 'Times New Roman', Times, serif;
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
     }
-</style>
-{% endblock head%}
-{% block body%}
-<h1>
-    Hello ,Iras
-</h1>
-{% endblock body%}
+
+    .sidebar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px;
+      background-color: rgba(102, 153, 204, 0.8);
+      color: #fff;
+    }
+
+    .sidebar h1 {
+      margin: 0;
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    .nav-item, .sub-menu-item {
+      padding: 8px 16px;
+      background-color: #fff;
+      color: #1f7ddb;
+      text-decoration: none;
+      border-radius: 4px;
+      font-weight: bold;
+      margin-right: 20px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .nav-item.selected, .nav-item:hover {
+      background-color: #6699cc;
+      color: #fff;
+    }
+
+    .main-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: calc(100vh - 80px);
+    }
+
+    .content-container {
+      display: flex;
+      justify-content: center;
+      margin-top: 50px;
+    }
+
+    .analysis-section {
+      display: flex;
+      flex: 1;
+      flex-direction: column;
+      align-items: center;
+      margin: 0 20px;
+    }
+
+    .image-container {
+      width: 200px;
+      height: 200px;
+      background-color: #f2f2f2;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px; /* Add margin-bottom to create space between image and button */
+    }
+
+    .analyze-button  {
+      padding: 8px 16px;
+      background-color: #fff;
+      color: #6699cc;
+      text-decoration: none;
+      border-radius: 4px;
+      font-weight: bold;
+      margin-top: 10px; /* Add margin-top to separate the buttons from the image */
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    .analyze-button.selected, .analyze-button:hover {
+      background-color: #6699cc;
+      color: #fff;
+    }
+  </style>
+  <script>
+    function loadPage(pageURL, menuItem) {
+      if (menuItem.classList.contains("nav-item")) {
+        window.location.href = pageURL;
+      } else {
+        var subMenuItems = document.getElementsByClassName("sub-menu-item");
+        for (var i = 0; i < subMenuItems.length; i++) {
+          subMenuItems[i].classList.remove("selected");
+        }
+        menuItem.classList.add("selected");
+
+        var pageDisplay = document.getElementById("page-display");
+        pageDisplay.innerHTML = '<iframe src="' + pageURL + '"></iframe>';
+      }
+    }
+  </script>
+</head>
+<body>
+<div class="sidebar">
+  <h1>智能简历分析系统</h1>
+  <a class="nav-item" onclick="loadPage('', this)">关于我们</a>
+</div>
+<div class="main-container">
+  <div class="content-container">
+    <div class="analysis-section">
+      <div class="image-container">
+        <img src="../../static/app/images/Add User.png" alt="单简历分析" width="100" height="100">
+      </div>
+      <div style="margin-top: 20px;"> <!-- Add margin-top to create space between image and button -->
+        <a class="analyze-button" href="{%url 'app:single' %}">单简历分析</a>
+      </div>
+    </div>
+    <div class="analysis-section">
+      <div class="image-container">
+        <img src="../../static/app/images/UUser.png" alt="多简历分析" width="100" height="100">
+      </div>
+      <div style="margin-top: 20px;"> <!-- Add margin-top to create space between image and button -->
+        <a class="analyze-button" href="{%url 'app:multiply'%}">多简历分析</a>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

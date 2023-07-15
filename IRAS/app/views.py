@@ -6,8 +6,25 @@ from django.urls import reverse
 def index(request):# 接受request
     context = {'words':'hello'}#传递上下文
     return render(request,'app/index.html',context)
-    # 进行渲染
-#
-#
-#
-#
+def multivis(request):
+    return render(request,'app/multi-vis.html')
+def sf(request):
+    return render(request,'app/single-result-fig.html')
+def sv(request):
+    return render(request,'app/single-result-vis.html')
+def sr(request):
+    return render(request,'app/single-result-res.html')
+def single(request):
+    return render(request,'app/single.html')
+def singleres(request):
+    return render(request,'app/single-result.html')
+def multiply(request):
+    return render(request,'app/multiply.html')
+def multires(request):
+    return render(request,'app/multi-result.html')
+def multimatch(request):
+    return render(request,'app/multi-match.html')
+def multiupres(request):
+    return render(request,'app/multi-upload-resume.html')
+def multiuppos(request):
+    return render(request,'app/multi-upload-position.html')
