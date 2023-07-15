@@ -33,24 +33,38 @@
       margin-top: 0;
     }
   </style>
+  <script>
+  </script>
 </head>
 <body>
 <div class="container">
   <div class="property">
+    <span>姓名:</span>
+    <span>{{form.name}}</span>
+  </div>
+  <div class="property">
+    <span>性别:</span>
+    <span>{{form.gender}}</span>
+  </div>
+  <div class="property">
     <span>年龄:</span>
-    <span>27</span>
+    <span>{{form.age}}</span>
+  </div>
+  <div class="property">
+    <span>求职意向</span>
+    <span>{{form.ideal_pos}}</span>
   </div>
   <div class="property">
     <span>最高学历</span>
-    <span>大专</span>
+    <span>{{form.education}}</span>
   </div>
   <div class="property">
     <span>毕业院校:</span>
-    <span>西安交通大学</span>
+    <span>{{form.school}}</span>
   </div>
   <div class="property">
     <span>工作年限:</span>
-    <span>2年</span>
+    <span>{{form.work_years}}</span>
   </div>
 </div>
 </body>

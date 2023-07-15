@@ -29,21 +29,23 @@ class Interviewee(models.Model):# 应聘者
     name = models.CharField(max_length=45, db_collation='utf8mb3_bin', blank=True, null=True)
     origin_text = models.TextField(db_collation='utf8mb3_bin', blank=True, null=True)
     # 原始提取文本
+    age = models.IntegerField(blank=True, null=True)
+    # 年龄
     work_years = models.IntegerField(blank=True, null=True)
     # 工作年限
     education = models.CharField(max_length=45, db_collation='utf8mb3_bin', blank=True, null=True)
     # 学历
+    ideal_pos = models.CharField(max_length=45, db_collation='utf8mb3_bin', blank=True, null=True)
+    # 求职意向
+    school = models.CharField(max_length=45, db_collation='utf8mb3_bin', blank=True, null=True)
+    # 最终毕业院校
     birth = models.DateField(blank=True, null=True)
     # 出生年月
-    age = models.IntegerField(blank=True, null=True)
-    # 年龄
     telephone = models.CharField(max_length=45, db_collation='utf8mb3_bin', blank=True, null=True)
-    gender = models.IntegerField(blank=True, null=True)
+    gender = models.CharField(max_length=4,db_collation='utf8mb3_bin',blank=True, null=True)
     # 性别 1为男 2为女
     native_place = models.CharField(max_length=45, db_collation='utf8mb3_bin', blank=True, null=True)
     # 籍贯
-    school = models.CharField(max_length=45, db_collation='utf8mb3_bin', blank=True, null=True)
-    # 最终毕业院校
     political_status = models.CharField(max_length=45, db_collation='utf8mb3_bin', blank=True, null=True)
     # 政治面貌
     file_name = models.CharField(max_length=45, db_collation='utf8mb3_bin', blank=True, null=True)
@@ -78,7 +80,7 @@ class Position(models.Model):
 
 class Project(models.Model):
     name = models.CharField(max_length=45, db_collation='utf8mb3_bin', blank=True, null=True)
-    work_year = models.IntegerField(blank=True, null=True)
+    time = models.IntegerField(blank=True, null=True)
     # 项目年限
     resp = models.TextField(blank=True, null=True)
     # 项目职责

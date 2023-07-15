@@ -15,4 +15,5 @@ urlpatterns=[
     path(r'multi-upload-position',views.multiuppos,name='multiuppos'),
     path(r'multiply',views.multiply,name='multiply'),
     path(r'single-upload',views.singleupload,name='singleupload'),
+    path(r'multiply-upload',views.multiupload,name='multiupload'),
 ]
