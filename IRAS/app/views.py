@@ -18,7 +18,7 @@ def sr(request):
     return render(request,'app/single-result-res.html')
 def single(request):
     return render(request,'app/single.html')
-def singleres(request):
+def singleres(request,itv_id):
     return render(request,'app/single-result.html')
 def multiply(request):
     return render(request,'app/multiply.html')
@@ -41,16 +41,18 @@ def singleupload(request):
         if text !="":
             itv = Interviewee()
             itv.origin_text=text
+            itv.file_name="default"
             itv.save()
-            return HttpResponseRedirect(reverse('app:singleres'))
+            return HttpResponseRedirect(reverse('app:singleres',args=[itv.id]))
         else:
             if form.is_valid():
                 itv = Interviewee()
                 itv.origin_text=handle_uploaded_file(request.FILES['file'],request.POST.get('title'))
+                itv.file_name=request.POST.get('title')
                 itv.save()
-                return HttpResponseRedirect(reverse('app:singleres'))
-        # else :
-        #     return HttpResponseRedirect(reverse('app:index'))
+                return HttpResponseRedirect(reverse('app:singleres',args=[itv.id]))
+            else :
+                return render(request, "app/single.html")
     else:
         form = UploadFileForm()
         return render(request, "app/single.html")

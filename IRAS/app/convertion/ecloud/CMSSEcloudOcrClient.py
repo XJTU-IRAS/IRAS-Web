@@ -21,7 +21,7 @@ class CMSSEcloudOcrClient(object):
         self.httpmethod = 'POST'
         self.hostname = url
 
-    def request_ocr_service_file(self, requestpath, image_file, options = None):
+    def request_ocr_service_file(self, requestpath, imagepath, options = None):
         urllib3.disable_warnings()
         querystring = sign('POST',self.accesskey, self.secretkey, requestpath)
         params = ''
@@ -30,7 +30,8 @@ class CMSSEcloudOcrClient(object):
         params = params[:-1]
 
         body = {}
-        img = image_file.read()
+        with open(imagepath, 'rb') as f:
+            img = f.read()
         img_base64 = base64.b64encode(img).decode('utf-8')
         if requestpath in urlset1:
             body['imageFile'] = img_base64

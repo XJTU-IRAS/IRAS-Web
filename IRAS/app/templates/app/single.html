@@ -200,18 +200,6 @@
       transform: scale(1);
     }
   </style>
-    <script>
-      document.getElementById('start-analysis-button').addEventListener('click', () => {
-        var fileInput = document.getElementById('file-input');
-        if (fileInput.value === '') {
-          alert('分析失败，您未选择简历文件');
-          return;
-        } else {
-          top.location.href = "{%url 'app:singleres'%}";
-        }
-      });
-    </script>
-  
   <script>
     function handleFileSelect(evt) {
       evt.preventDefault();
