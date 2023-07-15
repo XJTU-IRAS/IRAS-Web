@@ -276,16 +276,20 @@
 <div id="content">
   <div id="main-content">
     <div id="custom-module">
-      <div class="input-container">
-          <input type="file" id="file-picker" style="display: none;" onchange="handleFileInput(event)">
-          <input type="text" id="file-input" placeholder="选择文件或手动输入文件地址" ondrop="handleFileSelect(event)" ondragover="event.preventDefault()">
-          <button id="select-button" onclick="document.getElementById('file-picker').click()">选择文件</button><br>
+        <form id="fr"action="{%url 'app:singleupload'%}" method="post"enctype="multipart/form-data" >
+          {% csrf_token %}
+          <div class="input-container">
+          <input name="file" type="file" id="file-picker" style="display:none;" onchange="handleFileInput(event)">
+          <input name="title"type="text" id="file-input" placeholder="选择文件或手动输入文件地址" ondrop="handleFileSelect(event)" ondragover="event.preventDefault()">
+          <button type="button" id="select-button" onclick="document.getElementById('file-picker').click()">选择文件</button><br>
         </div>
       <textarea placeholder="请输入文本..."></textarea>
-      <button id="start-analysis-button" type="button" onclick="jump()">开始分析</button>
+      <button id="start-analysis-button" type="submit">开始分析</button>
+    </form>
+    {{warn}}
     <script>
       function jump(){
-        top.location.href="{%url 'app:singleres'%}"
+        document.getElementById(fr).submit();
       }
     </script>
     </div>

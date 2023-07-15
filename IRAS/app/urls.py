@@ -14,4 +14,5 @@ urlpatterns=[
     path(r'multi-upload-resume',views.multiupres,name='multiupres'),
     path(r'multi-upload-position',views.multiuppos,name='multiuppos'),
     path(r'multiply',views.multiply,name='multiply'),
+    path(r'single-upload',views.singleupload,name='singleupload'),
 ]

@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from django.http import Http404, HttpResponseRedirect # 可进行重定向，自行学习
 from django.urls import reverse
+from .forms import UploadFileForm
+from tempfile import TemporaryFile
 # 视图函数
 # Create your views here.
 def index(request):# 接受request
@@ -28,3 +30,18 @@ def multiupres(request):
     return render(request,'app/multi-upload-resume.html')
 def multiuppos(request):
     return render(request,'app/multi-upload-position.html')
+
+#进行文件处理
+import os
+def handle_uploaded_file(file,filename):
+    type = filename.split('.')[-1]
+    
+def singleupload(request):
+    if request.method == 'POST':
+        form = UploadFileForm(request.POST,request.FILES)
+        if form.is_valid():
+            handle_uploaded_file(request.FILES["file"],request.POST.get("title"))
+            return HttpResponseRedirect(reverse('app:singleres'))
+    else:
+        form = UploadFileForm()
+    return render(request, "app/single.html", {"form": form})
