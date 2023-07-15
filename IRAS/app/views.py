@@ -1,8 +1,9 @@
 from django.shortcuts import render
-from django.http import Http404, HttpResponseRedirect # 可进行重定向，自行学习
+from django.http import  HttpResponseRedirect # 可进行重定向，自行学习
 from django.urls import reverse
-from .forms import UploadFileForm
-from tempfile import TemporaryFile
+from .forms import IntervieweeForm, UploadFileForm
+from .handles import  handle_uploaded_file
+from .models import Interviewee
 # 视图函数
 # Create your views here.
 def index(request):# 接受request
@@ -10,16 +11,6 @@ def index(request):# 接受request
     return render(request,'app/index.html',context)
 def multivis(request):
     return render(request,'app/multi-vis.html')
-def sf(request):
-    return render(request,'app/single-result-fig.html')
-def sv(request):
-    return render(request,'app/single-result-vis.html')
-def sr(request):
-    return render(request,'app/single-result-res.html')
-def single(request):
-    return render(request,'app/single.html')
-def singleres(request,itv_id):
-    return render(request,'app/single-result.html')
 def multiply(request):
     return render(request,'app/multiply.html')
 def multires(request):
@@ -31,8 +22,7 @@ def multiupres(request):
 def multiuppos(request):
     return render(request,'app/multi-upload-position.html')
 #进行文件处理
-from .handles import  handle_uploaded_file
-from .models import Interviewee
+
 def singleupload(request):
     if request.method == 'POST':
         form = UploadFileForm(request.POST,request.FILES)
@@ -56,3 +46,16 @@ def singleupload(request):
     else:
         form = UploadFileForm()
         return render(request, "app/single.html")
+def singleres(request,itv_id):
+    itv = Interviewee.objects.get(id=itv_id)
+    form = IntervieweeForm(instance=itv)
+    context = {'form': form}
+    return render(request,'app/single-result.html',context)   
+def sf(request):
+    return render(request,'app/single-result-fig.html')
+def sv(request):
+    return render(request,'app/single-result-vis.html')
+def sr(request):
+    return render(request,'app/single-result-res.html')
+def single(request):
+    return render(request,'app/single.html')
