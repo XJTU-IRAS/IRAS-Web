@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>简历分析系统</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    .sidebar {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      padding: 20px;
+      background-color: rgba(102, 153, 204, 0.8);
+      color: #fff;
+    }
+
+    .sidebar h1 {
+      margin: 0;
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    #header {
+      background-color: rgba(102, 153, 204, 0.8);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px;
+      color: #fff;
+    }
+
+    #logo {
+      margin: 0;
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    #navigation {
+      display: flex;
+      align-items: center;
+    }
+
+    .nav-item {
+      padding: 8px 16px;
+      background-color: #fff;
+      color: #1f7ddb;
+      text-decoration: none;
+      border-radius: 4px;
+      font-weight: bold;
+      margin-right: 20px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .nav-item.selected, .nav-item:hover {
+      background-color: #6699cc;
+      color: #fff;
+    }
+
+    #content {
+      display: flex;
+    }
+
+    #sidebar {
+      background-color: rgba(102, 153, 204, 0.8);
+      width: auto;
+      padding: 20px;
+      height: 90vh;
+    }
+
+    #sidebar-heading {
+      margin: 0;
+      font-size: 24px;
+      font-weight: bold;
+      display: flex;
+      flex-direction: column;
+    }
+
+    #sidebar-heading span {
+      margin-bottom: 5px;
+      color: #fff;
+    }
+
+    #main-content {
+      flex: 1;
+      padding: 20px;
+    }
+
+    #sub-menu {
+      display: flex;
+      margin-bottom: 20px;
+    }
+
+    .sub-menu-item {
+      padding: 8px 16px;
+      background-color: #fff;
+      color: #6699cc;
+      text-decoration: none;
+      border-radius: 4px;
+      font-weight: bold;
+      margin-right: 20px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .sub-menu-item.selected, .sub-menu-item:hover {
+       background-color: #6699cc;
+       color: #fff;
+     }
+
+    #page-display {
+      border: 1px solid #ccc;
+      height: 500px;
+      padding: 20px;
+    }
+
+    #page-display iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+  </style>
+  <script>
+    function loadPage(pageURL, menuItem) {
+      if (menuItem.classList.contains("nav-item")) {
+        window.location.href = pageURL;
+      } else {
+        var subMenuItems = document.getElementsByClassName("sub-menu-item");
+        for (var i = 0; i < subMenuItems.length; i++) {
+          subMenuItems[i].classList.remove("selected");
+        }
+        menuItem.classList.add("selected");
+
+        var pageDisplay = document.getElementById("page-display");
+        pageDisplay.innerHTML = '<iframe src="' + pageURL + '"></iframe>';
+      }
+    }
+  </script>
+</head>
+<body>
+<div id="header">
+  <div id="logo">智能简历分析系统 > 多简历上传</div>
+  <div id="navigation">
+    <div class="nav-item" onclick="loadPage('easy1.html', this)">首页</div>
+    <div class="nav-item" onclick="loadPage('about.html', this)">关于我们</div>
+  </div>
+</div>
+
+<div id="content">
+
+  <div id="main-content">
+    <div id="sub-menu">
+      <div class="sub-menu-item" onclick="loadPage('easy31.html', this)">简历上传</div>
+      <div class="sub-menu-item" onclick="loadPage('easy32.html', this)">岗位上传</div>
+    </div>
+    <div id="page-display"></div>
+  </div>
+</div>
+</body>
+</html>
