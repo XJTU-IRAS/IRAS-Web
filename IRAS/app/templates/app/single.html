@@ -283,10 +283,11 @@
           <input name="title"type="text" id="file-input" placeholder="选择文件或手动输入文件地址" ondrop="handleFileSelect(event)" ondragover="event.preventDefault()">
           <button type="button" id="select-button" onclick="document.getElementById('file-picker').click()">选择文件</button><br>
         </div>
-      <textarea placeholder="请输入文本..."></textarea>
+      <textarea name="text" placeholder="请输入文本..."></textarea>
       <button id="start-analysis-button" type="submit">开始分析</button>
     </form>
-    {{warn}}
+    {{text}}
+    {{form}}
     <script>
       function jump(){
         document.getElementById(fr).submit();

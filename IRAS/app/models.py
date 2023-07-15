@@ -24,8 +24,7 @@ class Experience(models.Model):# 工作经历
     interviewee = models.ForeignKey('Interviewee', models.DO_NOTHING)
     class Meta:
         db_table = 'experience'
-
-
+        
 class Interviewee(models.Model):# 应聘者
     name = models.CharField(max_length=45, db_collation='utf8mb3_bin', blank=True, null=True)
     origin_text = models.TextField(db_collation='utf8mb3_bin', blank=True, null=True)

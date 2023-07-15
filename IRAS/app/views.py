@@ -30,18 +30,27 @@ def multiupres(request):
     return render(request,'app/multi-upload-resume.html')
 def multiuppos(request):
     return render(request,'app/multi-upload-position.html')
-
 #进行文件处理
-import os
-def handle_uploaded_file(file,filename):
-    type = filename.split('.')[-1]
-    
+from .handles import  handle_uploaded_file
+from .models import Interviewee
 def singleupload(request):
     if request.method == 'POST':
         form = UploadFileForm(request.POST,request.FILES)
-        if form.is_valid():
-            handle_uploaded_file(request.FILES["file"],request.POST.get("title"))
+        text = request.POST.get('text')
+        #两种输入时，优先选择text
+        if text !="":
+            itv = Interviewee()
+            itv.origin_text=text
+            itv.save()
             return HttpResponseRedirect(reverse('app:singleres'))
+        else:
+            if form.is_valid():
+                itv = Interviewee()
+                itv.origin_text=handle_uploaded_file(request.FILES['file'],request.POST.get('title'))
+                itv.save()
+                return HttpResponseRedirect(reverse('app:singleres'))
+        # else :
+        #     return HttpResponseRedirect(reverse('app:index'))
     else:
         form = UploadFileForm()
-    return render(request, "app/single.html", {"form": form})
+        return render(request, "app/single.html")

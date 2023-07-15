@@ -9,7 +9,6 @@ from django import forms
 class UploadFileForm(forms.Form):
     title = forms.CharField(max_length=50)
     file = forms.FileField()
-
 # class IntervieweeForm(forms.ModelForm):
 #     class Meta:
 #         model = Interviewee #表示以用户为模型设计表单
