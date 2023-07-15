@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>文件上传页面</title>
+  <style>
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .file-input {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .file-input input[type='text'],
+    .file-input input[type='file'] {
+      flex: 1;
+      padding: 8px 16px;
+    }
+
+
+    .file-list-container {
+      overflow-x: auto;
+      max-width: 100%;
+    }
+
+    .file-list {
+      width: 100%;
+      white-space: nowrap;
+    }
+
+    .file-list tr:nth-child(odd) {
+      background-color: #f5f5f5;
+    }
+
+    .file-list th,
+    .file-list td {
+      padding: 5px;
+    }
+
+    .file-list th {
+      background-color: #f1f1f1;
+    }
+
+    .file-list td:last-child {
+      text-align: center;
+    }
+
+    .file-list .checkbox-cell {
+      width: 20px;
+      text-align: center;
+    }
+
+    .delete-btn {
+      padding: 8px 16px;
+      background-color: #D1E0F7;
+      color: #0d6efd;
+      text-decoration: none;
+      border-radius: 4px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .delete-btn.selected, .delete-btn:hover {
+      background-color: #0151c8;
+      color: #fff;
+    }
+
+    .batch-delete-btn {
+      margin-top: 10px;
+      padding: 5px 10px;
+      background-color: #f44336;
+      border: none;
+      color: #fff;
+      cursor: pointer;
+    }
+
+    .batch-delete-btn:hover {
+      background-color: #d32f2f;
+    }
+
+    .action-buttons {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 10px;
+    }
+
+    .submit-btn {
+      margin-left: 10px;
+      padding: 5px 10px;
+      background-color: #4CAF50;
+      border: none;
+      color: #fff;
+      cursor: pointer;
+    }
+
+    .submit-btn:hover {
+      background-color: #45a049;
+    }
+  </style>
+  <script src="../../static/app/js/bootstrap.bundle.min.js"></script>
+  <link href="../../static/app/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+  <div class="file-input">
+    <input type="text" id="file-address" placeholder="请输入文件地址或将文件拖拽至此处" />
+    <input type="file" id="file-input" accept=".txt,.docx,.pdf,.doc,.jpg" />
+    <div class="action-buttons">
+      <button class="btn btn-danger">批量删除</button>&nbsp;
+      <button class="btn btn-success" onclick="parent.location.href='easy5.html'">提交</button>
+    </div>
+  </div>
+  <div class="file-list-container">
+    <table class="file-list">
+      <tr>
+        <th class="checkbox-cell"></th>
+        <th>文件名称</th>
+        <th>上传时间</th>
+        <th>操作</th>
+      </tr>
+    </table>
+  </div>
+
+ 
+</div>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    let selectedFiles = [];
+
+    const fileList = document.querySelector('.file-list');
+    const fileInput = document.getElementById('file-input');
+    const fileAddress = document.getElementById('file-address');
+    const batchDeleteBtn = document.querySelector('.batch-delete-btn');
+    const submitBtn = document.querySelector('.submit-btn');
+
+    // 文件选择按钮点击事件
+    fileInput.addEventListener('change', function() {
+      const file = fileInput.files[0];
+      fileAddress.value = file.name;
+
+      // 添加文件到文件列表
+      addFileToList(file);
+    });
+
+    // 文件地址框拖放事件
+    fileAddress.addEventListener('dragover', function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+    });
+
+    fileAddress.addEventListener('drop', function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+
+      const file = e.dataTransfer.files[0];
+      fileAddress.value = file.name;
+
+      // 添加文件到文件列表
+      addFileToList(file);
+    });
+
+    // 添加文件到文件列表
+    function addFileToList(file) {
+      const listItem = document.createElement('tr');
+      listItem.innerHTML = `
+          <td class="checkbox-cell"><input type="checkbox" /></td>
+          <td>${file.name}</td>
+          <td>${new Date().toLocaleString()}</td>
+          <td><button class="delete-btn">删除</button></td>
+        `;
+
+      const deleteBtn = listItem.querySelector('.delete-btn');
+      deleteBtn.addEventListener('click', function() {
+        listItem.remove();
+      });
+
+      fileList.appendChild(listItem);
+    }
+
+    // 批量删除按钮点击事件
+    batchDeleteBtn.addEventListener('click', function() {
+      const checkboxes = fileList.querySelectorAll('input[type="checkbox"]:checked');
+      checkboxes.forEach(function(checkbox) {
+        checkbox.parentNode.parentNode.remove();
+      });
+    });
+
+    //提交按钮点击事件
+    submitBtn.addEventListener('click', function() {
+      // 页面跳转至另一页面
+      window.location.href = "easy5.html";
+
+    });
+  });
+</script>
+</body>
+</html>

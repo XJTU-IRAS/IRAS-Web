@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background-size: cover;
+            display: flex;
+            flex-wrap: wrap;
+        }
+        .area {
+            width: 50%; /* 每个区域占50%宽度 */
+            height: 50vh; /* 每个区域占50%视窗高度 */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative; /* 添加相对定位以便子元素进行定位 */
+        }
+        
+        .area:before {
+            content: "";
+            position: absolute;
+            bottom: 50%; /* 调整背景方块位置到区域中央 */
+            left: 50%; /* 调整背景方块位置到区域中央 */
+            transform: translate(-50%, 50%); /* 调整背景方块位置到区域中央 */
+            width: 80%; /* 背景方块宽度 */
+            height: 80%; /* 背景方块高度 */
+            background-color: rgba(142, 199, 246, 0.3); /* 透明的浅蓝色背景 */
+        }
+        
+        img {
+            max-width: 100%;
+            max-height: 100%;
+        }
+        
+        @media screen and (max-width: 600px) {
+            .area {
+                width: 100%; /* 在小屏幕上，每个区域占据100%宽度 */
+                height: 25vh; /* 在小屏幕上，每个区域占据25%视窗高度 */
+            }
+            
+            .area:before {
+                width: 60%; /* 在小屏幕上，背景方块宽度 */
+                height: 60%; /* 在小屏幕上，背景方块高度 */
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="area">
+        <img src="your_image_url" alt="Image">
+    </div>
+    <div class="area">
+        <img src="your_image_url" alt="Image">
+    </div>
+    <div class="area">
+        <img src="your_image_url" alt="Image">
+    </div>
+    <div class="area">
+        <img src="your_image_url" alt="Image">
+    </div>
+</body>
+</html>
