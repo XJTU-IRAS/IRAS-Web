@@ -15,7 +15,7 @@
       justify-content: flex-start;
       align-items: center;
       padding: 20px;
-      background-color: rgba(102, 153, 204, 0.8); 
+      background-color: #0d6efd; 
       color: #fff;
     }
 
@@ -26,7 +26,7 @@
     }
 
     #header {
-      background-color: rgba(102, 153, 204, 0.8); 
+      background-color: #0d6efd; 
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -58,7 +58,7 @@
     }
 
     .nav-item.selected, .nav-item:hover {
-      background-color: #6699cc;
+      background-color: #004bbc;
       color: #fff;
     }
 
@@ -67,7 +67,7 @@
     }
 
     #sidebar {
-      background-color: rgba(102, 153, 204, 0.8);
+      background-color: #0d6efd;
       width: auto;
       padding: 20px;
       height: 90vh;
@@ -101,7 +101,7 @@
       border: none;
       cursor: pointer;
     padding: 8px 16px;
-    background-color: #6699cc;
+    background-color: #0d6efd;
     color: #fff;
     text-decoration: none;
     border-radius: 4px;
@@ -109,7 +109,7 @@
     }
 
     .sub-menu-item.selected, .sub-menu-item:hover {
-      background-color: #6699cc;
+      background-color: #0d6efd;
       color: #fff;
     }
 
@@ -173,7 +173,7 @@
     border: none;
     cursor: pointer;
     padding: 6px 22px;
-    background-color: #6699cc;
+    background-color: #0d6efd;
     color: #fff;
     text-decoration: none;
     border-radius: 15px;
@@ -185,7 +185,7 @@
       border: none;
       cursor: pointer;
     padding: 8px 16px;
-    background-color: #6699cc;
+    background-color: #0d6efd;
     color: #fff;
     text-decoration: none;
     border-radius: 4px;
@@ -200,8 +200,19 @@
       transform: scale(1);
     }
   </style>
+    <script>
+      document.getElementById('start-analysis-button').addEventListener('click', () => {
+        var fileInput = document.getElementById('file-input');
+        if (fileInput.value === '') {
+          alert('分析失败，您未选择简历文件');
+          return;
+        } else {
+          top.location.href = "{%url 'app:singleres'%}";
+        }
+      });
+    </script>
+  
   <script>
-
     function handleFileSelect(evt) {
       evt.preventDefault();
       var files = evt.dataTransfer.files;
@@ -210,8 +221,6 @@
         document.getElementById('file-input').value = file.name;
       }
     }
-
-
     function handleFileInput(evt) {
       evt.preventDefault();
       var files = evt.target.files;
