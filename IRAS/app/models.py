@@ -42,7 +42,7 @@ class Interviewee(models.Model):# 应聘者
     birth = models.DateField(blank=True, null=True)
     # 出生年月
     telephone = models.CharField(max_length=45, db_collation='utf8mb3_bin', blank=True, null=True)
-    gender = models.IntegerField(blank=True, null=True)
+    gender = models.CharField(max_length=4,db_collation='utf8mb3_bin',blank=True, null=True)
     # 性别 1为男 2为女
     native_place = models.CharField(max_length=45, db_collation='utf8mb3_bin', blank=True, null=True)
     # 籍贯

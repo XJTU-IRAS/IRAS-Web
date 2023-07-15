@@ -169,20 +169,20 @@
 
 </head>
 <body>
-<div id="main-content">
-  <div id="custom-module">
-    <div class="input-container">
-      <input type="file" id="file-picker" style="display: none;" onchange="handleFileInput(event)">
-      <input type="text" id="file-input" placeholder="选择文件或手动输入文件地址" ondrop="handleFileSelect(event)" ondragover="event.preventDefault()">
-      <button id="select-button" onclick="document.getElementById('file-picker').click()">选择文件</button><br>
+    <div id="main-content">
+      <div id="custom-module">
+          <form id="fr"action="{%url 'app:multiuppos'%}" method="post"enctype="multipart/form-data" >
+            {% csrf_token %}
+            <div class="input-container">
+            <input name="file" type="file" id="file-picker" style="display:none;" onchange="handleFileInput(event)">
+            <input name="title"type="text" id="file-input" placeholder="选择文件或手动输入文件地址" ondrop="handleFileSelect(event)" ondragover="event.preventDefault()">
+            <button type="button" id="select-button" onclick="document.getElementById('file-picker').click()">选择文件</button><br>
+          </div>
+        <textarea name="text" placeholder="请输入文本..."></textarea>
+        <button id="start-analysis-button" type="submit">上传文件</button>
+        <button id="start-analysis-button" type="button" onclick="">开始分析</button>
+      </form>
+      </div>
     </div>
-    <textarea placeholder="请输入文本..."></textarea>
-    <!--  -->
-    <button class="btn primary-btn" id="start-analysis-button" type="button" onclick="jump()">开始分析</button>
-    <script>
-      function jump(){top.location.href="{%url 'app:multires'%}"}
-    </script>
   </div>
-</div>
-</body>
 </html>

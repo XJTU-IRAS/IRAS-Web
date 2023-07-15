@@ -106,14 +106,22 @@
 </head>
 <body>
 <div class="container">
+  <form action="{%url 'app:multiupload'%}" method="post"  enctype="multipart/form-data">
+    {% csrf_token %}
   <div class="file-input">
     <input type="text" id="file-address" placeholder="请输入文件地址或将文件拖拽至此处" />
     <input type="file" id="file-input" accept=".txt,.docx,.pdf,.doc,.jpg" />
     <div class="action-buttons">
-      <button class="btn btn-danger">批量删除</button>&nbsp;
-      <button class="btn btn-success" onclick="parent.location.href='easy5.html'">提交</button>
+      <button type="button" class="btn btn-danger">批量删除</button>&nbsp;
+      <button type="submit" class="btn btn-success">提交</button>
     </div>
   </div>
+</form>
+<!-- <form method="POST" action="{%url 'app:multiupload'%}" enctype="multipart/form-data">
+  {% csrf_token %}
+ <label>{{form}}</label>
+ <input type="submit" class="btn btn-primary" value="批量上传"/>
+</form> -->
   <div class="file-list-container">
     <table class="file-list">
       <tr>
@@ -130,13 +138,11 @@
 <script>
   document.addEventListener('DOMContentLoaded', function() {
     let selectedFiles = [];
-
     const fileList = document.querySelector('.file-list');
     const fileInput = document.getElementById('file-input');
     const fileAddress = document.getElementById('file-address');
     const batchDeleteBtn = document.querySelector('.batch-delete-btn');
     const submitBtn = document.querySelector('.submit-btn');
-
     // 文件选择按钮点击事件
     fileInput.addEventListener('change', function() {
       const file = fileInput.files[0];

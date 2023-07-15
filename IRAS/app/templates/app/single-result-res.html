@@ -13,19 +13,19 @@
     }
 
     .container {
-      padding: 40%;
+      padding: 20px;
       border: 1px solid #ddd;
       border-radius: 4px;
       background-color: #fff;
       box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-      max-width: 80%;
+      max-width: 500px;
       width: 80%;
     }
 
     .property {
       display: flex;
       justify-content: space-between;
-      margin-bottom: 60%;
+      margin-bottom: 10px;
     }
 
     h1 {
@@ -33,10 +33,39 @@
       margin-top: 0;
     }
   </style>
+  <script>
+  </script>
 </head>
 <body>
-  <div class="container">
-   {{form.as_p}}
+<div class="container">
+  <div class="property">
+    <span>姓名:</span>
+    <span>{{form.name}}</span>
   </div>
+  <div class="property">
+    <span>性别:</span>
+    <span>{{form.gender}}</span>
+  </div>
+  <div class="property">
+    <span>年龄:</span>
+    <span>{{form.age}}</span>
+  </div>
+  <div class="property">
+    <span>求职意向</span>
+    <span>{{form.ideal_pos}}</span>
+  </div>
+  <div class="property">
+    <span>最高学历</span>
+    <span>{{form.education}}</span>
+  </div>
+  <div class="property">
+    <span>毕业院校:</span>
+    <span>{{form.school}}</span>
+  </div>
+  <div class="property">
+    <span>工作年限:</span>
+    <span>{{form.work_years}}</span>
+  </div>
+</div>
 </body>
 </html>

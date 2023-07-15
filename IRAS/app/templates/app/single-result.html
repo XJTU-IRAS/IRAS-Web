@@ -130,19 +130,21 @@
       }else{
         fid = menuItem.getAttribute("id")+"f";
         let frames = document.getElementsByTagName("iframe");
-        // alert(frames.length)
         for (var i=0;i<frames.length;i++){
           frames[i].setAttribute('style','display:none;');
         }
         let iframe = document.getElementById(fid);
         iframe.setAttribute('style', '');
-        let absoluteUrl = window.location.protocol + '//' + window.location.host + pageURL;
+        let id = document.getElementById("key").getAttribute("data-id");
+        let absoluteUrl = window.location.protocol + '//' + window.location.host + pageURL+"?id="+id;
         iframe.src = absoluteUrl;
+        // alert(absoluteUrl);
       }
     }
   </script>
 </head>
 <body>
+  <div id="key" style="display: none;" data-id = "{{id}}"></div>
 <div id="header">
   <div id="logo">智能简历分析系统 > 单简历分析</div>
   <div id="navigation">
@@ -151,7 +153,6 @@
   </div>
 </div>
 <div id="content">
-
   <div id="main-content">
     <div id="sub-menu">
       <div class="sub-menu-item" id ="sr" data-url="{%url 'app:sr'%}" onclick="loadPage(this)">解析结果</div>
