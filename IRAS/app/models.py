@@ -29,6 +29,7 @@ class Experience(models.Model):
 class Interviewee(models.Model):# 应聘者
     name = models.CharField(max_length=45, db_collation='utf8mb3_bin', blank=True, null=True)
     #
+    tags = models.TextField(db_collation='utf8mb3_bin', blank=True, null=True)
     origin_text = models.TextField(db_collation='utf8mb3_bin', blank=True, null=True)
     # 原始提取文本
     age = models.IntegerField(blank=True, null=True)

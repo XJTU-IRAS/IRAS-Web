@@ -1,3 +1,4 @@
+import json
 from django.shortcuts import render
 from django.http import  HttpResponseRedirect # 可进行重定向，自行学习
 from django.urls import reverse
@@ -24,12 +25,24 @@ def multires(request):
     return render(request,'app/multi-result.html')
 
 def multivis(request):
-    start =20
-    end =40
+    start =1
+    end =80
     query_result = education_group(start,end)
-    df = pd.DataFrame(query_result,columns=['学历','人数'])
-    echarts_data = [{'name': row['学历'],'value':row['人数']} for _, row in df.iterrows()]
-    return render(request,'app/multi-vis.html',{'echarts_data':echarts_data})
+
+    df = pd.DataFrame(query_result, columns=['人数','学历'])
+
+    data=df.to_dict('records')
+
+    echarts_data = [{'name': row['学历'],'value':row['人数']} for row in data]
+    #echarts_data_jason=json.dumps(echarts_data)
+    print(echarts_data)
+   # print(echarts_data_jason)
+    name_data = [item['name'] for item in echarts_data]
+    value_data = [item['value'] for item in echarts_data]
+    print(name_data)
+    print(value_data)
+    #print("################################################################")
+    return render(request,'app/multi-vis.html',{'name_data':name_data,'value_data':value_data})
     # return render(request,'app/multi-vis.html')
 def multimatch(request):
     return render(request,'app/multi-match.html')
@@ -121,6 +134,12 @@ def singleupload(request):
                     itv.name = info['name']
                 if 'age' in info.keys():
                     itv.age = info['age']
+                    if itv.age>=35:
+                        itv.tags+=" 年龄较大"
+                    elif itv.age>=25:
+                        itv.tags+=" 年龄适中"
+                    else:
+                        itv.tags+=" 年龄较小"
                 if 'sex' in info.keys():
                     itv.gender = info['sex']
                 if 'education' in info.keys():
@@ -132,18 +151,18 @@ def singleupload(request):
                 if 'job_intention' in info.keys():
                     itv.ideal_pos=info['job_intention']
                 itv.save()
-                
-                experience = info['work_experience']
-                for e in experience:
-                    exp = Experience()
-                    exp.interviewee = itv
-                    if 'section' in e.keys():
-                        exp.name = e['section']
-                    if 'company' in e.keys():
-                        exp.company = e['company']
-                    if 'job' in e.keys():
-                        exp.info = e['job']
-                    exp.save()
+                if 'work_experience' in info.keys():
+                    experience = info['work_experience']
+                    for e in experience:
+                        exp = Experience()
+                        exp.interviewee = itv
+                        if 'section' in e.keys():
+                            exp.name = e['section']
+                        if 'company' in e.keys():
+                            exp.company = e['company']
+                        if 'job' in e.keys():
+                            exp.info = e['job']
+                        exp.save()
                 return HttpResponseRedirect(reverse('app:singleres',args=[itv.id]))
             else :
                 return render(request, "app/single.html")

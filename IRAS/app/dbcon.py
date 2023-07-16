@@ -13,7 +13,7 @@ def education_group(start,end):
     cursor.execute(SQL1)
     result = cursor.fetchall()
     print(result)
-    
+    return result
 def year_group(start,end):
     cursor = connection.cursor()
     SQL2='''SELECT COUNT(*) AS count,

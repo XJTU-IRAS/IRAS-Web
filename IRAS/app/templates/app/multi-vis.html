@@ -55,22 +55,31 @@
     <div id="main" style="width: 420px;height:400px;"></div>
     <div id="main2" style="width: 420px;height:400px;"></div>
     <div id="main3" style="width: 420px;height:400px;"></div>
-  
+    <div id="edu" data="{{ echarts_data|safe }}" style="display: none;"></div>
     <script type="text/javascript">
       // 基于准备好的dom，初始化echarts实例
       
       var myChart2 = echarts.init(document.getElementById('main2'));
       var option2 = {
-        series: [
-          {
-            name: '学历分布',
-            type: 'pie',
-            radius: '55%',
-            roseType: 'angle',
-            data: echarts_data,
-          }
-        ]
+        title: {
+          text: '学历分布'
+        },
+        tooltip: {},
+        legend: {
+          data: ['人数']
+        },
+        xAxis: {
+          type:'category',
+          data: '{{ category_data|safe }}',
+        },
+        yAxis: {},
+        series: [{
+          name: '人数',
+          type: 'bar',
+          data: '{{value_data|safe }}',
+        }]
       };
+      console.log(option2);
       myChart2.setOption(option2);
   
       var myChart3 = echarts.init(document.getElementById('main3'));
