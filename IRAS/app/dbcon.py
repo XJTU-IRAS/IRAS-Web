@@ -13,7 +13,7 @@ def education_group(start,end):
     cursor.execute(SQL1)
     result = cursor.fetchall()
     print(result)
-
+    
 def year_group(start,end):
     cursor = connection.cursor()
     SQL2='''SELECT COUNT(*) AS count,
@@ -30,17 +30,4 @@ def year_group(start,end):
  END AS age_group FROM interviewee WHERE id>={start} AND id<={end} GROUP BY age_group;
 '''.format(start=start, end=end)
     cursor.execute(SQL2)
-    result = cursor.fetchall()
-
-
-def gender_group(start,end):
-    cursor = connection.cursor()
-    SQL3='''SELECT COUNT(*) AS count,
- CASE 
- WHEN gender = '男' THEN '男' 
- WHEN gender = '女' THEN '女' 
- ELSE '未知'
- END AS gender_group FROM interviewee WHERE id>={start} AND id<={end} GROUP BY gender_group;
-'''.format(start=start, end=end)
-    cursor.execute(SQL3)
     result = cursor.fetchall()

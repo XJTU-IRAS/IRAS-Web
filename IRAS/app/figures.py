@@ -17,8 +17,7 @@ def generate_cloud(s):
                height=700,
                background_color='white',
                max_words=200).generate(text)
-    output_path = r"./static/app/images/"+generate_hash((str)((int)(time.time())%72637))+".png"
-    with open(output_path, 'w') as f:
-        f.write(wc)
-    return output_path
-    
+    filename = generate_hash((str)((int)(time.time())%72637))+".png";
+    output_path = r"app/static/app/images/"+filename
+    wc.to_file(output_path)
+    return filename

@@ -6,21 +6,31 @@ from .info_extract import info_extract
 from .forms import IntervieweeForm, UploadFileForm
 from .handles import  handle_uploaded_file
 from .models import Experience, Interviewee,Position
-from .dbcon import gender_group,education_group,year_group
+from .dbcon import education_group,year_group
 # 视图函数
 # Create your views here.
+import pandas as pd
+
 def index(request):# 接受request
     context = {'words':'hello'}#传递上下文
     return render(request,'app/index.html',context)
-def multivis(request):
-    return render(request,'app/multi-vis.html')
 def multiply(request):
     return render(request,'app/multiply.html')
+
 def multires(request):
     start = request.GET.get('start')
     end = request.GET.get('end')
-    context = {'chardata':education_group(start,end)}
-    return render(request,'app/multi-result.html',context)
+    # context = {'chardata':education_group(start,end)}
+    return render(request,'app/multi-result.html')
+
+def multivis(request):
+    start =20
+    end =40
+    query_result = education_group(start,end)
+    df = pd.DataFrame(query_result,columns=['学历','人数'])
+    echarts_data = [{'name': row['学历'],'value':row['人数']} for _, row in df.iterrows()]
+    return render(request,'app/multi-vis.html',{'echarts_data':echarts_data})
+    # return render(request,'app/multi-vis.html')
 def multimatch(request):
     return render(request,'app/multi-match.html')
 def multiupres(request):
@@ -149,8 +159,8 @@ from .figures import generate_cloud
 def sv(request):
     id = request.GET.get('id')
     itv=Interviewee.objects.get(id=id)
-    url = generate_cloud(itv.origin_text)
-    context = {"url":url}
+    name= generate_cloud(itv.origin_text)
+    context = {"name":name}
     return render(request,'app/single-result-vis.html',context)
 # 单简历解析结果
 def sr(request):
