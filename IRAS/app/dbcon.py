@@ -12,8 +12,9 @@ def education_group(start,end):
     END AS education_group FROM interviewee WHERE id>={start} AND id<={end} GROUP BY education_group;'''.format(start=start, end=end)
     cursor.execute(SQL1)
     result = cursor.fetchall()
-    print(result)
+    # print(result)
     return result
+
 def year_group(start,end):
     cursor = connection.cursor()
     SQL2='''SELECT COUNT(*) AS count,
@@ -31,3 +32,4 @@ def year_group(start,end):
 '''.format(start=start, end=end)
     cursor.execute(SQL2)
     result = cursor.fetchall()
+    return result

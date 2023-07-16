@@ -6,6 +6,7 @@
     body {
       margin: 0;
       font-family: Arial, sans-serif;
+      background-image: url("../../static/app/images/backg.jpg");
     }
 
     .sidebar {
@@ -90,7 +91,8 @@
     }
   </style>
   <script>
-    function loadPage(pageURL, menuItem) {
+    function loadPage( menuItem) {
+      pageURL=menuItem.getAttribute("data-url");
       if (menuItem.classList.contains("nav-item")) {
         window.location.href = pageURL;
       } else {
@@ -109,7 +111,7 @@
 <body>
 <div class="sidebar">
   <h1>智能简历分析系统</h1>
-  <a class="nav-item" onclick="loadPage('', this)">关于我们</a>
+  <a class="nav-item" data-url="{%url 'app:about'%}" onclick="loadPage(this)">关于我们</a>
 </div>
 <div class="main-container">
   <div class="content-container">

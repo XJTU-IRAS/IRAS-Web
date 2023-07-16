@@ -21,11 +21,23 @@
       max-width: 100%;
       height: auto;
     }
+    .art-text {
+          font-family: 'Permanent Marker', cursive;  /* 使用Permanent Marker字体 */
+          font-size: 45px;
+          color: #0a018d;  /* 文字颜色为红色 */
+          text-shadow: 2px 2px 4px #1d1c1c;  /* 文字阴影效果 */
+      }
   </style>
+  <link href="https://fonts.googleapis.com/css?family=Permanent+Marker" rel="stylesheet">
+
 </head>
 <body>
 <div class="container">
-  <img class="image" src="../../static/app/images/" alt="人才画像">
+  {% for tag in tags %}
+  <p class="art-text">{{tag}}</p>
+  {%empty%}
+  <p class="art-text">平平无奇的职场人一枚呀~</p>
+  {%endfor%}
 </div>
 </body>
 </html>

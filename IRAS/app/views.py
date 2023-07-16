@@ -2,16 +2,15 @@ import json
 from django.shortcuts import render
 from django.http import  HttpResponseRedirect # 可进行重定向，自行学习
 from django.urls import reverse
-
 from .info_extract import info_extract
 from .forms import IntervieweeForm, UploadFileForm
 from .handles import  handle_uploaded_file
 from .models import Experience, Interviewee,Position
 from .dbcon import education_group,year_group
 # 视图函数
+def about(request):
+    return render(request, 'app/about.html')
 # Create your views here.
-import pandas as pd
-
 def index(request):# 接受request
     context = {'words':'hello'}#传递上下文
     return render(request,'app/index.html',context)
@@ -23,27 +22,15 @@ def multires(request):
     end = request.GET.get('end')
     # context = {'chardata':education_group(start,end)}
     return render(request,'app/multi-result.html')
-
+from .plots import plot,plot2
 def multivis(request):
     start =1
-    end =80
-    query_result = education_group(start,end)
+    end =Interviewee.objects.count()
+    name1=plot(education_group(start,end))
+    name2=plot2(year_group(start,end))
+    context={'name1':name1,'name2':name2}
+    return render(request,'app/multi-vis.html',context)
 
-    df = pd.DataFrame(query_result, columns=['人数','学历'])
-
-    data=df.to_dict('records')
-
-    echarts_data = [{'name': row['学历'],'value':row['人数']} for row in data]
-    #echarts_data_jason=json.dumps(echarts_data)
-    print(echarts_data)
-   # print(echarts_data_jason)
-    name_data = [item['name'] for item in echarts_data]
-    value_data = [item['value'] for item in echarts_data]
-    print(name_data)
-    print(value_data)
-    #print("################################################################")
-    return render(request,'app/multi-vis.html',{'name_data':name_data,'value_data':value_data})
-    # return render(request,'app/multi-vis.html')
 def multimatch(request):
     return render(request,'app/multi-match.html')
 def multiupres(request):
@@ -58,6 +45,7 @@ def multiupload(request):
         itv = Interviewee()
         itv.origin_text=handle_uploaded_file(f,f.name)
         itv.name=f.name
+        tags=[]
         info = info_extract(itv.origin_text)
         if 'name' in info.keys():
             itv.name = info['name']
@@ -65,27 +53,55 @@ def multiupload(request):
             itv.gender = info['sex']
         if 'age' in info.keys():
             itv.age = info['age']
+            if (int)(itv.age)>=35:
+                tags.append(" 年龄较大")
+            elif (int)(itv.age)>=25:
+                tags.append(" 年龄适中")
+            else:
+                tags.append(" 年龄较小")
         if 'education' in info.keys():
             itv.education = info['education']
+            if "士" in itv.education:
+                tags.append(" 高层次人才")
+            elif "本" in itv.education:
+                tags.append(" 中端人才")
+            else:
+                tags.append(" 学历平平")
         if 'school' in info.keys():
             itv.school = info['school']
         if 'work_time' in info.keys():
             itv.work_years=info['work_time']
+            if (int)(itv.work_years)>10:
+                tags.append(" 职场老手")
+            elif (int)(itv.work_years)>5:
+                tags.append(" 普通打工人")
+            else:
+                tags.append(" 初出茅庐")
         if 'job_intention' in info.keys():
             itv.ideal_pos=info['job_intention']
-        itv.save()
+        # itv.save()
                 
-        experience = info['work_experience']
-        for e in experience:
-            exp = Experience()
-            exp.interviewee = itv
-            if 'section' in e.keys():
-                exp.name = e['section']
-            if 'company' in e.keys():
-                exp.company = e['company']
-            if 'job' in e.keys():
-                exp.info = e['job']
-            exp.save()
+        if 'work_experience' in info.keys():
+            experience = info['work_experience']
+            if (int)(itv.work_years)/len(experience)<3:
+                tags.append(" 跳槽频繁")
+            elif (int)(itv.work_years)/len(experience)<6:
+                tags.append(" 努力生活")
+            else:
+                tags.append(" 我与公司共存亡")
+            itv.tags=" ".join(tags)
+            itv.save()
+            for e in experience:
+                exp = Experience()
+                exp.interviewee = itv
+                if 'section' in e.keys():
+                    exp.name = e['section']
+                if 'company' in e.keys():
+                    exp.company = e['company']
+                if 'job' in e.keys():
+                    exp.info = e['job']
+                    exp.save()
+        
         end_id = itv.id
     context={"start":end_id-len(files)+1,"end":end_id}
     return render(request, 'app/multi-upload-resume.html',context)
@@ -118,13 +134,16 @@ def singleupload(request):
         form = UploadFileForm(request.POST,request.FILES)
         text = request.POST.get('text')
         #两种输入时，优先选择text
+        
         if text !="":
             itv = Interviewee()
+            print(type(itv.telephone))
             itv.origin_text=text
             itv.file_name="default"
             itv.save()
             return HttpResponseRedirect(reverse('app:singleres',args=[itv.id]))
         else:
+            tags=[]
             if form.is_valid():
                 itv = Interviewee()
                 itv.origin_text=handle_uploaded_file(request.FILES['file'],request.POST.get('title'))
@@ -134,25 +153,45 @@ def singleupload(request):
                     itv.name = info['name']
                 if 'age' in info.keys():
                     itv.age = info['age']
-                    if itv.age>=35:
-                        itv.tags+=" 年龄较大"
-                    elif itv.age>=25:
-                        itv.tags+=" 年龄适中"
+                    if (int)(itv.age)>=35:
+                        tags.append("年龄较大")
+                    elif (int)(itv.age)>=25:
+                        tags.append("年龄适中")
                     else:
-                        itv.tags+=" 年龄较小"
+                        tags.append("年龄较小")
                 if 'sex' in info.keys():
                     itv.gender = info['sex']
                 if 'education' in info.keys():
                     itv.education = info['education']
+                    if "士" in itv.education:
+                        tags.append(" 高层次人才")
+                    elif "本" in itv.education:
+                        tags.append(" 中端人才")
+                    else:
+                        tags.append(" 学历平平")
                 if 'school' in info.keys():
                     itv.school = info['school']
                 if 'work_time' in info.keys():
                     itv.work_years=info['work_time']
+                    if (int)(itv.work_years)>10:
+                        tags.append(" 职场老手")
+                    elif (int)(itv.work_years)>5:
+                        tags.append(" 普通打工人")
+                    else:
+                        tags.append(" 初出茅庐")
                 if 'job_intention' in info.keys():
                     itv.ideal_pos=info['job_intention']
-                itv.save()
+                
                 if 'work_experience' in info.keys():
                     experience = info['work_experience']
+                    if (int)(itv.work_years)/len(experience)<3:
+                        tags.append(" 跳槽频繁")
+                    elif (int)(itv.work_years)/len(experience)<6:
+                        tags.append(" 努力生活")
+                    else:
+                        tags.append(" 我与公司共存亡")
+                    itv.tags=" ".join(tags)
+                    itv.save()
                     for e in experience:
                         exp = Experience()
                         exp.interviewee = itv
@@ -173,7 +212,11 @@ def singleres(request,itv_id):
     context = {'id': itv_id}
     return render(request,'app/single-result.html',context)   
 def sf(request):
-    return render(request,'app/single-result-fig.html')
+    id = request.GET.get('id')
+    itv=Interviewee.objects.get(id=id)
+    tags =itv.tags.split(' ')
+    context={"tags":tags}
+    return render(request,'app/single-result-fig.html',context)
 from .figures import generate_cloud
 def sv(request):
     id = request.GET.get('id')
