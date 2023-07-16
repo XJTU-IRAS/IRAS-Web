@@ -124,13 +124,21 @@
       if (menuItem.classList.contains("nav-item")) {
         window.location.href = pageURL;
       }else{
-        var iframe = document.getElementById('ifr');
+        fid = menuItem.getAttribute("id")+"f";
+        let frames = document.getElementsByTagName("iframe");
+        for (var i=0;i<frames.length;i++){
+          frames[i].setAttribute('style','display:none;');
+        }
+        let iframe = document.getElementById(fid);
         iframe.setAttribute('style', '');
-        var absoluteUrl = window.location.protocol + '//' + window.location.host + pageURL;
+        // let id = document.getElementById("key").getAttribute("data-id");
+        let absoluteUrl = window.location.protocol + '//' + window.location.host + pageURL;
         iframe.src = absoluteUrl;
+        // alert(absoluteUrl);
       }
     }
   </script>
+ 
 </head>
 <body>
 <div id="header">
@@ -142,24 +150,15 @@
 </div>
 
 <div id="content">
-<!--  <div id="sidebar">-->
-<!--    <div id="sidebar-heading">-->
-<!--      <span>多</span>-->
-<!--      <span>简</span>-->
-<!--      <span>历</span>-->
-<!--      <span>分</span>-->
-<!--      <span>析</span>-->
-<!--    </div>-->
-<!--  </div>-->
-
   <div id="main-content">
     <div id="sub-menu">
-      <div class="sub-menu-item" data-url="{%url 'app:multivis'%}" onclick="loadPage(this)">可视化</div>
-      <div class="sub-menu-item" data-url="{%url 'app:multimatch'%}" onclick="loadPage(this)">人岗匹配</div>
+      <div id="sv" class="sub-menu-item" data-url="{%url 'app:multivis'%}" onclick="loadPage(this)">可视化</div>
+      <div id="sm" class="sub-menu-item" data-url="{%url 'app:multimatch'%}" onclick="loadPage(this)">人岗匹配</div>
     </div>
     
     <div id="page-display">
-      <iframe id ="ifr" ></iframe>
+      <iframe id ="svf" ></iframe>
+      <iframe id ="smf" style="display: none;"></iframe>
     </div>
   </div>
 </div>

@@ -157,13 +157,15 @@
 
   <div id="main-content">
     <div id="sub-menu">
-      <div id="re" class="sub-menu-item" data-url="{%url 'app:multiupres' %}" onclick="loadPage(this)">简历上传</div>
       <div id="po" class="sub-menu-item" data-url="{%url 'app:multiuppos' %}" onclick="loadPage(this)">岗位上传</div>
+      <div id="re" class="sub-menu-item" data-url="{%url 'app:multiupres' %}" onclick="loadPage(this)">简历上传</div>
+      
     </div>
     
     <div id="page-display">
-      <iframe id ="ref" ></iframe>
+      
       <iframe id ="pof" style="display: none;"></iframe>
+      <iframe id ="ref" ></iframe>
     </div>
   </div>
 </div>

@@ -49,19 +49,82 @@
             }
         }
     </style>
+     <script src="https://cdn.staticfile.org/echarts/4.3.0/echarts.min.js"></script>
 </head>
 <body>
-    <div class="area">
-        <img src="your_image_url" alt="Image">
-    </div>
-    <div class="area">
-        <img src="your_image_url" alt="Image">
-    </div>
-    <div class="area">
-        <img src="your_image_url" alt="Image">
-    </div>
-    <div class="area">
-        <img src="your_image_url" alt="Image">
-    </div>
-</body>
+    <div id="main" style="width: 420px;height:400px;"></div>
+    <div id="main2" style="width: 420px;height:400px;"></div>
+    <div id="main3" style="width: 420px;height:400px;"></div>
+  
+    <script type="text/javascript">
+      // 基于准备好的dom，初始化echarts实例
+      var myChart = echarts.init(document.getElementById('main'));
+  
+      // 指定图表的配置项和数据
+      var option = {
+        title: {
+          text: '男女人数'
+        },
+        tooltip: {},
+        legend: {
+          data: ['人数']
+        },
+        xAxis: {
+          data: ["男", "女"]
+        },
+        yAxis: {},
+        series: [{
+          name: '人数',
+          type: 'bar',
+          data: [34, 20]
+        }]
+      };
+  
+      // 使用刚指定的配置项和数据显示图表。
+      myChart.setOption(option);
+  
+      var myChart2 = echarts.init(document.getElementById('main2'));
+      var option2 = {
+        series: [
+          {
+            name: '学历分布',
+            type: 'pie',
+            radius: '55%',
+            roseType: 'angle',
+            data: [
+              { value: 235, name: '高中及以下' },
+              { value: 274, name: '大专' },
+              { value: 310, name: '本科' },
+              { value: 335, name: '硕士' },
+              { value: 400, name: '博士' },
+              { value: 823, name: '未知'}
+            ]
+          }
+        ]
+      };
+      myChart2.setOption(option2);
+  
+      var myChart3 = echarts.init(document.getElementById('main3'));
+      var option3 = {
+        title: {
+          text: '年龄统计'
+        },
+        tooltip: {},
+        legend: {
+          data: ['人数']
+        },
+        xAxis: {
+          data: ["18-21", "22-25", "26-29", "30-35", "35-40", "40以上"]
+        },
+        yAxis: {},
+        series: [{
+          name: '人数',
+          type: 'bar',
+          data: [5, 20, 36, 10, 10, 20]
+        }]
+      };
+      myChart3.setOption(option3);
+  
+    </script>
+  </body>
 </html>

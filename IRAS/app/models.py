@@ -12,7 +12,8 @@
 # py manage.py makemigrations
 # py manage.py migrate
 from django.db import models
-class Experience(models.Model):# 工作经历
+class Experience(models.Model):
+    # 工作经历
     name = models.CharField(max_length=45, db_collation='utf8mb3_bin', blank=True, null=True)
     # 名称
     info = models.TextField(db_collation='utf8mb3_bin', blank=True, null=True)

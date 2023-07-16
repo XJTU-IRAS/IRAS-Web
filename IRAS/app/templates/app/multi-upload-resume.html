@@ -105,23 +105,20 @@
   <link href="../../static/app/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-<div class="container">
+  <div id="time" start="{{start}}"end="{{end}}" style="display: none;"></div>
+<div class="container>">
   <form action="{%url 'app:multiupload'%}" method="post"  enctype="multipart/form-data">
     {% csrf_token %}
   <div class="file-input">
     <input type="text" id="file-address" placeholder="请输入文件地址或将文件拖拽至此处" />
-    <input type="file" id="file-input" accept=".txt,.docx,.pdf,.doc,.jpg" />
+    <input type="file" id="file-input" name="files" accept=".txt,.docx,.pdf,.doc,.jpg" multiple="multiple"/>
     <div class="action-buttons">
-      <button type="button" class="btn btn-danger">批量删除</button>&nbsp;
-      <button type="submit" class="btn btn-success">提交</button>
+      <button id ="batch-delete-btn" type="button" class="btn btn-danger">批量删除</button>&nbsp;
+      <input type="submit" class="btn btn-success" value="上传简历 ">&nbsp
+      <button type="button" data-url="{%url 'app:multires'%}" class="btn btn-primary" onclick="load(this)">开始分析</button>
     </div>
   </div>
 </form>
-<!-- <form method="POST" action="{%url 'app:multiupload'%}" enctype="multipart/form-data">
-  {% csrf_token %}
- <label>{{form}}</label>
- <input type="submit" class="btn btn-primary" value="批量上传"/>
-</form> -->
   <div class="file-list-container">
     <table class="file-list">
       <tr>
@@ -136,12 +133,19 @@
  
 </div>
 <script>
+  function load(item){
+   let time=document.getElementById("time");
+   top.location.href=item.getAttribute("data-url")+"?start="+time.getAttribute("start")+"&end="+time.getAttribute("end");
+   alert(top.location.href)
+  }
+</script>
+<script>
   document.addEventListener('DOMContentLoaded', function() {
     let selectedFiles = [];
     const fileList = document.querySelector('.file-list');
     const fileInput = document.getElementById('file-input');
     const fileAddress = document.getElementById('file-address');
-    const batchDeleteBtn = document.querySelector('.batch-delete-btn');
+    const batchDeleteBtn = document.querySelector('#batch-delete-btn');
     const submitBtn = document.querySelector('.submit-btn');
     // 文件选择按钮点击事件
     fileInput.addEventListener('change', function() {
@@ -193,13 +197,6 @@
       checkboxes.forEach(function(checkbox) {
         checkbox.parentNode.parentNode.remove();
       });
-    });
-
-    //提交按钮点击事件
-    submitBtn.addEventListener('click', function() {
-      // 页面跳转至另一页面
-      window.location.href = "easy5.html";
-
     });
   });
 </script>
